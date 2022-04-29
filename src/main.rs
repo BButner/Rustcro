@@ -42,7 +42,7 @@ fn average(vec: &Vec<i64>) -> (f32,f32) {
 fn test_key_sequence(args: &Vec<String>, vec: &mut Vec<i64>, typing_type: TypingType) {
     let mut enigo = Enigo::new();
 
-    for _i in 1..11 {
+    for _i in 1..101 {
         let start = Utc::now().time();
 
         for s in &args[1..] {
