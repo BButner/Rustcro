@@ -1,5 +1,6 @@
 use std::env;
 use enigo::{Enigo, Key, KeyboardControllable};
+use chrono::Utc;
 
 enum TypingMode {
     // Windows
@@ -9,6 +10,7 @@ enum TypingMode {
 }
 
 pub fn run_macro() {
+    let start = Utc::now().time();
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
@@ -33,4 +35,6 @@ pub fn run_macro() {
             }
         }
     }
+    let end = Utc::now().time();
+    println!("Execution Time: {}ms", (end - start).num_milliseconds());
 }
