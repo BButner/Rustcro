@@ -26,6 +26,16 @@ pub fn code_newest_directory(args: &Vec<String>) {
 
     if latest_dir.is_some() {
         // Launch VSCode to the most recent sub-directory
-        Command::new("code").arg(latest_dir.unwrap().unwrap().path().to_str().unwrap()).spawn();
+        let arg = latest_dir.unwrap().unwrap().path().to_str().unwrap().to_owned();
+
+        let command =
+            if cfg!(target_os = "windows")
+            { Command::new("cmd").args(["/C", "code", &arg]).spawn() }
+            else { Command::new("code").arg(&arg).spawn() };
+
+        if command.is_err() {
+            println!("Error on attempting to launch Code...");
+            println!("Error: {}", command.err().unwrap());
+        }
     }
 }
