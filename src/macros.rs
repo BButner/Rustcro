@@ -1,13 +1,6 @@
 use std::env;
-use enigo::{Enigo, Key, KeyboardControllable};
 use chrono::Utc;
-
-enum TypingMode {
-    // Windows
-    KeyDownUp,
-    // macOS
-    KeySequence,
-}
+mod types;
 
 pub fn run_macro() {
     let start = Utc::now().time();
@@ -17,24 +10,15 @@ pub fn run_macro() {
         eprintln!("Args must be > 1");
     }
 
-    let mode: TypingMode =
-        if env::consts::OS == "macos" { TypingMode::KeySequence } else { TypingMode::KeyDownUp };
-
-    let string_to_type = &args[1..].join(" ");
-
-    let mut enigo = Enigo::new();
-
-    match mode {
-        TypingMode::KeySequence => {
-            enigo.key_sequence(string_to_type);
+    if args[1].contains("run_macro=") {
+        match args[1].as_str() {
+            "run_macro=code_newest_directory" => types::vscode::code_newest_directory(&args[1..].to_vec()),
+            _ => eprintln!("Could not find match for {}", args[1])
         }
-        TypingMode::KeyDownUp => {
-            for c in string_to_type.chars() {
-                enigo.key_down(Key::Layout(c));
-                enigo.key_up(Key::Layout(c));
-            }
-        }
+    } else {
+        types::typing::type_macro(&args[1..].to_vec());
     }
+
     let end = Utc::now().time();
     println!("Execution Time: {}ms", (end - start).num_milliseconds());
 }
