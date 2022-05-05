@@ -57,9 +57,6 @@ impl eframe::App for MacroBar {
                         println!("testing");
                         println!("{:?}", self.config.typing_macros);
 
-                        // for x in &self.config.typing_macros {
-                        //     ui.add(Button::new(&x.key));
-                        // }
                         &for x in self.config.typing_macros
                             .iter()
                             .filter(|m| m.key.contains(text)) {
