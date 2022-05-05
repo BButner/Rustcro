@@ -5,6 +5,7 @@
           "name": "rustcro",
           "dependsOn": [], // optional
           "cargoArgs": [
+            "run",
             "--package",
             "rustcro",
             "--bin",
