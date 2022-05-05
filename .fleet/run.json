@@ -1,0 +1,17 @@
+{
+    "configurations": [
+    {
+          "type": "cargo",
+          "name": "rustcro",
+          "dependsOn": [], // optional
+          "cargoArgs": [
+            "--package",
+            "rustcro",
+            "--bin",
+            "rustcro"
+          ],
+          "cargoExtraArgs": [], // optional
+          "executableArgs": [], // optional
+      }
+    ]
+}

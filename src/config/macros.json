@@ -1,0 +1,12 @@
+{
+  "typing_macros": [
+    {
+      "key": "testing",
+      "text": "testing"
+    },
+    {
+      "key": "code",
+      "text": "This is a test with a longer string"
+    }
+  ]
+}
