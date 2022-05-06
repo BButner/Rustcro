@@ -1,20 +1,15 @@
-use std::time::Duration;
-use eframe::{egui, Storage};
+use eframe::{egui};
 use eframe::emath::Vec2;
 use eframe::epaint::{Color32, Rgba};
-use eframe::glow::Context;
-use egui::{FontFamily, TextEdit, Visuals, RichText, FontId, Button, Stroke, Frame};
+use egui::{TextEdit, Visuals, FontId, Button, Stroke, Frame};
 use crate::config::Config;
-use crate::macros;
 use crate::macros::run_macro;
-
-const WINDOW_WIDTH: f32 = 500.0;
 
 pub fn launch_gui(config: Config) {
     let options = eframe::NativeOptions {
         decorated: false,
         transparent: true,
-        initial_window_size: Option::from(Vec2::new(500., 100.)),
+        initial_window_size: Option::from(Vec2::new(500., 200.)),
         ..eframe::NativeOptions::default()
     };
 
@@ -24,6 +19,7 @@ pub fn launch_gui(config: Config) {
         Box::new(|_cc| Box::new(MacroBar {
             current_text: String::new(),
             config,
+            initial_focus_set: false,
         })),
     );
 }
@@ -31,13 +27,10 @@ pub fn launch_gui(config: Config) {
 struct MacroBar {
     current_text: String,
     config: Config,
+    initial_focus_set: bool,
 }
 
 impl eframe::App for MacroBar {
-    fn clear_color(&self, _visuals: &Visuals) -> Rgba {
-        Rgba::TRANSPARENT
-    }
-
     fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
         egui::CentralPanel::default()
             .frame(Frame {
@@ -52,16 +45,27 @@ impl eframe::App for MacroBar {
                     let textedit =
                         TextEdit::singleline(&mut self.current_text)
                             .desired_width(500.0)
-                            .hint_text("Macro Key")
+                            .hint_text("testing")
                             .font(FontId { size: 32.0, family: Default::default() });
 
-                    ui.add(textedit);
+                    let textedit_response = ui.add(textedit);
+
+                    if !self.initial_focus_set {
+                        self.initial_focus_set = true;
+                        textedit_response.request_focus();
+                    }
 
                     if text_len > 1 {
-                        &for x in self.config.typing_macros
+                        let _ = &for x in self.config.macros
                             .iter()
                             .filter(|m| m.key.contains(text))
                             .take(5) {
+                            if textedit_response.lost_focus() && ui.input().key_pressed(egui::Key::Enter) {
+                                frame.quit();
+                                run_macro(&x);
+                                break;
+                            }
+
                             let button = Button::new(&x.key)
                                 .stroke(Stroke { width: 0.0, color: Default::default() });
 
@@ -73,7 +77,9 @@ impl eframe::App for MacroBar {
                     }
                 });
             });
+    }
 
-        frame.set_window_size(ctx.used_size());
+    fn clear_color(&self, _visuals: &Visuals) -> Rgba {
+        Rgba::TRANSPARENT
     }
 }

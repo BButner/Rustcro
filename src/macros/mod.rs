@@ -1,4 +1,4 @@
-use crate::config::{Config, MacroEntry};
+use crate::config::{MacroEntry};
 use crate::macros::types::typing::type_macro;
 use serde::{Deserialize, Serialize};
 use crate::macros::types::vscode::code_newest_directory;
@@ -8,7 +8,7 @@ mod types;
 #[derive(Clone, Deserialize, Serialize, Debug)]
 pub enum MacroType {
     TYPING,
-    FUNCTION
+    FUNCTION,
 }
 
 pub fn run_macro(macro_entry: &MacroEntry) {
@@ -18,7 +18,7 @@ pub fn run_macro(macro_entry: &MacroEntry) {
                 let text = &macro_entry.text.as_ref().unwrap();
                 type_macro(&text);
             }
-        },
+        }
         MacroType::FUNCTION => {
             if macro_entry.fn_name.is_none() {
                 eprintln!("`fn_name` parameter was not populated!");
@@ -38,7 +38,7 @@ pub fn run_macro(macro_entry: &MacroEntry) {
 
                         code_newest_directory(&args[0]);
                     }
-                },
+                }
                 _ => eprintln!("Could not find fn...")
             }
         }

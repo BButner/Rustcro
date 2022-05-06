@@ -4,7 +4,7 @@ use crate::MacroType;
 
 #[derive(Clone, Deserialize, Serialize, Debug)]
 pub struct Config {
-    pub typing_macros: Vec<MacroEntry>,
+    pub macros: Vec<MacroEntry>,
 }
 
 #[derive(Clone, Deserialize, Serialize, Debug)]
