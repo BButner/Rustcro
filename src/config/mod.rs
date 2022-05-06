@@ -17,7 +17,9 @@ pub struct MacroEntry {
 }
 
 pub fn load_config() -> Config {
-    let data = fs::read_to_string("/Users/bbutner/Projects/rustcro/src/config/macros.json").expect("Unable to read config file...");
+    println!("{:?}", std::env::current_dir());
+
+    let data = fs::read_to_string("./macros.json").expect("Unable to read config file...");
 
     let config: Config = serde_json::from_str(&data).unwrap();
 
