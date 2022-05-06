@@ -3,6 +3,7 @@ mod config;
 use chrono::Utc;
 use std::env;
 use crate::gui::launch_gui;
+use crate::macros::MacroType;
 
 mod gui;
 
@@ -17,7 +18,7 @@ fn main() {
                 eprintln!("Must supply a 3rd argument to type for a raw macro!");
             }
 
-            macros::type_macro(&args[2..].join(" "));
+            // macros::type_macro(&args[2..].join(" "));
             return;
         }
     }

@@ -2,14 +2,7 @@ use std::fs;
 use std::path::Path;
 use std::process::Command;
 
-pub fn code_newest_directory(args: &Vec<String>) {
-    if args.len() < 2 {
-        eprintln!("Must supply a path to search...");
-        return;
-    }
-
-    let path = &args[1];
-
+pub fn code_newest_directory(path: &String) {
     if !Path::new(path).exists() {
         eprintln!("Could not find path \"{}\"", path);
         return;
@@ -22,7 +15,7 @@ pub fn code_newest_directory(args: &Vec<String>) {
     let latest_dir =
         sub_dirs
             .into_iter()
-            .max_by_key(|d| d.as_ref().unwrap().metadata().unwrap().created().unwrap());
+            .max_by_key(|d| d.as_ref().unwrap().metadata().unwrap().modified().unwrap());
 
     if latest_dir.is_some() {
         // Launch VSCode to the most recent sub-directory

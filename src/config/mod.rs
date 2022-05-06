@@ -1,15 +1,19 @@
 use serde::{Deserialize, Serialize};
 use std::fs;
+use crate::MacroType;
 
 #[derive(Clone, Deserialize, Serialize, Debug)]
 pub struct Config {
-    pub typing_macros: Vec<TypingMacro>,
+    pub typing_macros: Vec<MacroEntry>,
 }
 
 #[derive(Clone, Deserialize, Serialize, Debug)]
-pub struct TypingMacro {
+pub struct MacroEntry {
     pub key: String,
-    pub text: String,
+    pub text: Option<String>,
+    pub macro_type: MacroType,
+    pub args: Option<Vec<String>>,
+    pub fn_name: Option<String>,
 }
 
 pub fn load_config() -> Config {
