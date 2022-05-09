@@ -1,0 +1,25 @@
+{
+  "macros": [
+    {
+      "key": "testing",
+      "text": "testing",
+      "macro_type": "TYPING"
+    },
+    {
+      "key": "test",
+      "text": "testing test",
+      "macro_type": "TYPING"
+    },
+    {
+      "key": "testtest",
+      "text": "testtest testingtesting test",
+      "macro_type": "TYPING"
+    },
+    {
+      "key": "code",
+      "macro_type": "FUNCTION",
+      "args": ["/Users/bbutner/Projects/rustcro"],
+      "fn_name": "code_newest_directory"
+    }
+  ]
+}

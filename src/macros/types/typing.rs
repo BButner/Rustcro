@@ -8,18 +8,15 @@ enum TypingMode {
     KeySequence,
 }
 
-pub fn type_macro(args: &Vec<String>) {
-
+pub fn type_macro(string_to_type: &String) {
     let mode: TypingMode =
         if env::consts::OS == "macos" { TypingMode::KeySequence } else { TypingMode::KeyDownUp };
-
-    let string_to_type = &args.join(" ");
 
     let mut enigo = Enigo::new();
 
     match mode {
         TypingMode::KeySequence => {
-            enigo.key_sequence(string_to_type);
+            enigo.key_sequence(&string_to_type);
         }
         TypingMode::KeyDownUp => {
             for c in string_to_type.chars() {
